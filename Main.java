@@ -17,6 +17,8 @@ public class Main {
 
 
         }
+
+        // this whole sequence can be looped for the whole simulation
         int diceRoll = playa[1].flipDice();
         System.out.println("roll value is " + diceRoll);
 
