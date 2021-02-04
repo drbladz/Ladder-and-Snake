@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-//stuff in main will prolly get moved to playgame methode, in main just to test for now
+    //stuff in main will prolly get moved to playgame methode, in main just to test for now
     public static void main(String[] args) {
         // write your code here
         Scanner kb = new Scanner(System.in);
@@ -14,26 +14,27 @@ public class Main {
 
         for (int i = 0; i < amountOfPlayers; i++) {
             playa[i] = new Players();
-
-
         }
+        int diceRoll = 0;
+        int diceRoll2 = 0;
+        int diceRoll3 = 0;
+        diceRoll = playa[1].flipDice();
+        System.out.println("roll value is " + diceRoll);
+        System.out.println("position is " + playa[1].initialPosition(diceRoll));
+        diceRoll=0;
+
 
         // this whole sequence can be looped for the whole simulation
-        int diceRoll = playa[1].flipDice();
-        System.out.println("roll value is " + diceRoll);
-
-        System.out.println("position is " + playa[1].initialPosition(diceRoll));
-
-        int diceRoll2 = playa[1].flipDice();
-        System.out.println("new roll value is " + diceRoll2);
-
-        System.out.println("new position is " + playa[1].playerPosition(diceRoll2));
-
-
-
-
+        while (playa[1].playerPosition(diceRoll2) != 10) {
+            diceRoll2 = playa[1].flipDice();
+            System.out.println("new roll value is " + diceRoll2);
+            System.out.println("new position is " + playa[1].playerPosition(diceRoll2));
+            diceRoll2 = 0;
+        }
 
     }
+
+
 }
 
 
@@ -41,8 +42,13 @@ class LadderAndSnake {
 
     int nbOfPlayers;
     final int winner = 100;
+
     public LadderAndSnake(int nbOfPlayers) { //use the number of players to decide how the game loops, create a separate class for players
         this.nbOfPlayers = nbOfPlayers;
+
+        if (nbOfPlayers < 2 || nbOfPlayers > 4) {
+            System.out.println("Error, please enter a number between 2 and 4");
+        }
 
         //THE GAME BOARD IN GOOD ORDER TOO xD, probably use this just for some sort of gui.
         int board[][] = new int[10][10];
@@ -72,7 +78,6 @@ class LadderAndSnake {
     }
 
 
-
     public int getNbOfPlayers() {
         return nbOfPlayers;
     }
@@ -85,7 +90,8 @@ class LadderAndSnake {
     public String toString() {
         return "";
     }
-    public void playGame(){
+
+    public void playGame() {
 
     }
 
@@ -104,19 +110,30 @@ class Players {
     public static void numberOfPlayers() {
         System.out.println(count);
     }
+
     public int flipDice() {
         int diceValue = (int) (Math.random() * 6) + 1;
         return diceValue;
     }
 
-    public int initialPosition(int diceValue){
+    public int initialPosition(int diceValue) {
         PosAfter = startPosition + diceValue;
         return PosAfter;
     }
 
-    public int playerPosition(int diceValue2){
-        int ppos = PosAfter + diceValue2;
-        return ppos;
-    }
 
+    public int playerPosition(int diceValue2) {
+        int newPos = PosAfter + diceValue2;
+        if (newPos > 10) {
+            newPos = 10 - (newPos - 10);
+            PosAfter = newPos;
+            return newPos;
+        } else {
+            PosAfter += diceValue2;
+            PosAfter = newPos;
+            return newPos;
+        }
+
+
+    }
 }
