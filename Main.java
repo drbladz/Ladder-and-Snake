@@ -1,11 +1,42 @@
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class Main {
     //stuff in main will prolly get moved to playgame methode, in main just to test for now
+    //STORE THE VALUES OF THE PLAYER POSITIONS IN 4 VARIABLES THAT KEEP GETTING UPDATE
+
+    static Map<Integer, Integer> snake = new HashMap<Integer,Integer>();
+    static Map<Integer, Integer> ladder = new HashMap<Integer,Integer>();
+    {
+        snake.put(16,6);
+        snake.put(48,30);
+        snake.put(64,60);
+        snake.put(79,19);
+        snake.put(93,68);
+        snake.put(95,24);
+        snake.put(97,76);
+        snake.put(98,78);
+
+        ladder.put(1,38);
+        ladder.put(4,14);
+        ladder.put(9,31);
+        ladder.put(21,42);
+        ladder.put(28,84);
+        ladder.put(36,44);
+        ladder.put(51,67);
+        ladder.put(71,91);
+        ladder.put(80,100);
+
+
+    }
+
     public static void main(String[] args) {
         // write your code here
         Scanner kb = new Scanner(System.in);
+
+
 
 
         int attempt = 0;
@@ -26,8 +57,9 @@ public class Main {
                 int diceRoll3 = 0;
                 for (int i = 1; i <= amountOfPlayers; i++) {
                     diceRoll = playa[i - 1].flipDice();
-                    System.out.println("intitiatePlayer " + i + " rolls " + diceRoll);
-                    System.out.println("initiatePlayer " + i + "'s new position is " + playa[i - 1].initialPosition(diceRoll));
+                    System.out.println("Player " + i + " rolls " + diceRoll);
+                    //PUT HASHMAP IF STATEMENT HERE
+                    System.out.println("Player " + i + "'s new position is " + playa[i - 1].initialPosition(diceRoll));
                     diceRoll = 0;
                 }
 
@@ -40,16 +72,17 @@ public class Main {
 
                         diceRoll2 = playa[i - 1].flipDice();
                         System.out.println("Player " + i + " rolls " + diceRoll2);
+                        //PUT HASHMAP IF STATEMENT HERE
                         System.out.println("Player " + i + "'s new position is " + playa[i - 1].playerPosition(diceRoll2));
                         diceRoll2 = 0;
-                        if (playa[i-1].playerPosition(diceRoll2)==100){
+                        if (playa[i - 1].playerPosition(diceRoll2) == 100) {
                             System.out.println("Game Over! Player " + i + " Won!");
                             System.exit(0);
                         }
 
 
                     }
-                    System.out.println(turnCount);
+                    System.out.println("Turn " + turnCount);
                     turnCount++;
 
 
