@@ -7,100 +7,13 @@ public class Main {
     //stuff in main will prolly get moved to playgame methode, in main just to test for now
     //STORE THE VALUES OF THE PLAYER POSITIONS IN 4 VARIABLES THAT KEEP GETTING UPDATE
 
-    static Map<Integer, Integer> snake = new HashMap<Integer,Integer>();
-    static Map<Integer, Integer> ladder = new HashMap<Integer,Integer>();
-    {
-        snake.put(16,6);
-        snake.put(48,30);
-        snake.put(64,60);
-        snake.put(79,19);
-        snake.put(93,68);
-        snake.put(95,24);
-        snake.put(97,76);
-        snake.put(98,78);
 
-        ladder.put(1,38);
-        ladder.put(4,14);
-        ladder.put(9,31);
-        ladder.put(21,42);
-        ladder.put(28,84);
-        ladder.put(36,44);
-        ladder.put(51,67);
-        ladder.put(71,91);
-        ladder.put(80,100);
-
-
-    }
 
     public static void main(String[] args) {
         // write your code here
-        Scanner kb = new Scanner(System.in);
+        LadderAndSnake k = new LadderAndSnake();
+        k.playGame();
 
-
-
-
-        int attempt = 0;
-        while (true) {
-            System.out.println("How many players are playing today?: ");
-            int amountOfPlayers = kb.nextInt();
-            if (amountOfPlayers >= 2 && amountOfPlayers <= 4) {
-                System.out.println("Game is played by " + amountOfPlayers + " players!");
-                LadderAndSnake yo = new LadderAndSnake(amountOfPlayers);
-
-                Players[] playa = new Players[amountOfPlayers];
-
-                for (int i = 1; i <= amountOfPlayers; i++) {
-                    playa[i - 1] = new Players();
-                }
-                int diceRoll = 0;
-                int diceRoll2 = 0;
-                int diceRoll3 = 0;
-                for (int i = 1; i <= amountOfPlayers; i++) {
-                    diceRoll = playa[i - 1].flipDice();
-                    System.out.println("Player " + i + " rolls " + diceRoll);
-                    //PUT HASHMAP IF STATEMENT HERE
-                    System.out.println("Player " + i + "'s new position is " + playa[i - 1].initialPosition(diceRoll));
-                    diceRoll = 0;
-                }
-
-
-                // this whole sequence can be looped for the whole simulation
-                int turnCount = 0;
-                while (turnCount < 100) {
-                    for (int i = 1; i <= amountOfPlayers; i++) {
-
-
-                        diceRoll2 = playa[i - 1].flipDice();
-                        System.out.println("Player " + i + " rolls " + diceRoll2);
-                        //PUT HASHMAP IF STATEMENT HERE
-                        System.out.println("Player " + i + "'s new position is " + playa[i - 1].playerPosition(diceRoll2));
-                        diceRoll2 = 0;
-                        if (playa[i - 1].playerPosition(diceRoll2) == 100) {
-                            System.out.println("Game Over! Player " + i + " Won!");
-                            System.exit(0);
-                        }
-
-
-                    }
-                    System.out.println("Turn " + turnCount);
-                    turnCount++;
-
-
-                }
-
-
-            } else {
-                attempt++;
-                if (attempt < 4) {
-                    System.out.println("Bad attempt " + attempt + " - Invalid # of players. Please enter a # between 2 and 4 inclusively: ");
-                }
-                if (attempt == 4) {
-                    System.out.println("Bad attempt " + attempt + "! You have exhausted all your chances. Program will terminate!");
-                    System.exit(0);
-                }
-            }
-
-        }
     }
 }
 
@@ -109,12 +22,8 @@ class LadderAndSnake {
     int nbOfPlayers;
     final int winner = 100;
 
-    public LadderAndSnake(int nbOfPlayers) { //use the number of players to decide how the game loops, create a separate class for players
-        this.nbOfPlayers = nbOfPlayers;
+    public LadderAndSnake() { //use the number of players to decide how the game loops, create a separate class for players
 
-        if (nbOfPlayers < 2 || nbOfPlayers > 4) {
-            System.out.println("Error, please enter a number between 2 and 4");
-        }
 
         //THE GAME BOARD IN GOOD ORDER TOO xD, probably use this just for some sort of gui.
         int board[][] = new int[10][10];
@@ -157,7 +66,72 @@ class LadderAndSnake {
         return "";
     }
 
-    public void playGame() {
+    public void playGame(){
+        Scanner kb = new Scanner (System.in);
+        int attempt = 0;
+        while (true) {
+            System.out.println("How many players are playing today?: ");
+            int amountOfPlayers = kb.nextInt();
+            if (amountOfPlayers >= 2 && amountOfPlayers <= 4) {
+                System.out.println("Game is played by " + amountOfPlayers + " players!");
+
+
+                Players[] playa = new Players[amountOfPlayers];
+
+                for (int i = 1; i <= amountOfPlayers; i++) {
+                    playa[i - 1] = new Players();
+                }
+                //dicerolls
+                int diceRoll = 0;
+                int diceRoll2 = 0;
+
+
+                for (int i = 1; i <= amountOfPlayers; i++) {
+                    diceRoll = playa[i - 1].flipDice();
+                    System.out.println("Player " + i + " rolls " + diceRoll);
+                    System.out.println("Player " + i + "'s new position is " + playa[i - 1].initialPosition(diceRoll));
+                    diceRoll = 0;
+                }
+
+
+                // this whole sequence can be looped for the whole simulation
+                int turnCount = 0;
+                while (turnCount < 100) {
+                    for (int i = 1; i <= amountOfPlayers; i++) {
+
+
+                        diceRoll2 = playa[i - 1].flipDice();
+                        System.out.println("Player " + i + " rolls " + diceRoll2);
+                        System.out.println("Player " + i + "'s new position is " + playa[i - 1].playerPosition(diceRoll2));
+                        diceRoll2 = 0;
+                        if (playa[i - 1].playerPosition(diceRoll2) == 100) {
+                            System.out.println("Game Over! Player " + i + " Won!");
+                            System.exit(0);
+                        }
+
+
+                    }
+                    System.out.println("Turn " + turnCount);
+                    turnCount++;
+
+
+                }
+
+
+            } else {
+                attempt++;
+                if (attempt < 4) {
+                    System.out.println("Bad attempt " + attempt + " - Invalid # of players. Please enter a # between 2 and 4 inclusively: ");
+                }
+                if (attempt == 4) {
+                    System.out.println("Bad attempt " + attempt + "! You have exhausted all your chances. Program will terminate!");
+                    System.exit(0);
+                }
+            }
+
+        }
+
+
 
     }
 
@@ -165,6 +139,30 @@ class LadderAndSnake {
 
 
 class Players {
+    static Map<Integer, Integer> snake = new HashMap<Integer,Integer>();
+    static Map<Integer, Integer> ladder = new HashMap<Integer,Integer>();
+    {
+        snake.put(16,6);
+        snake.put(48,30);
+        snake.put(64,60);
+        snake.put(79,19);
+        snake.put(93,68);
+        snake.put(95,24);
+        snake.put(97,76);
+        snake.put(98,78);
+
+        ladder.put(1,38);
+        ladder.put(4,14);
+        ladder.put(9,31);
+        ladder.put(21,42);
+        ladder.put(28,84);
+        ladder.put(36,44);
+        ladder.put(51,67);
+        ladder.put(71,91);
+        ladder.put(80,100);
+
+
+    }
     private static int count = 0;
     private static int startPosition = 0;
     private int PosAfter = 0;
@@ -194,7 +192,18 @@ class Players {
             newPos = 100 - (newPos - 100);
             PosAfter = newPos;
             return newPos;
-        } else {
+        }
+        if (null != snake.get(PosAfter)){
+            System.out.println("swallowed by snake");
+            PosAfter= snake.get(PosAfter);
+            return PosAfter;
+        }
+        if(null != ladder.get(PosAfter)){
+            System.out.println("Climb up the ladder");
+            PosAfter = ladder.get(PosAfter);
+            return PosAfter;
+        }
+        else {
             PosAfter += diceValue2;
             PosAfter = newPos;
             return newPos;
@@ -202,4 +211,9 @@ class Players {
 
 
     }
+
+
 }
+
+
+
