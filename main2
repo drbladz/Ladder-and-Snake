@@ -23,33 +23,33 @@ class LadderAndSnake {
 
 
         //THE GAME BOARD IN GOOD ORDER TOO xD, probably use this just for some sort of gui.
-        Tile[][] tiles2 = new Tile[10][10];
+        Tile[][] tiles = new Tile[10][10];
         int maxNumber = 100;
         int reverseNum = 90;
         for(int i=0; i<10; i++) {
         	for(int j=0; j<10; j++) {
-        		tiles2[i][j] = new Tile();
+        		tiles[i][j] = new Tile();
         	}
         }
         for (int i = 0; i < 10; i++) {
             if (i % 2 == 0) {
                 for (int j = 0; j < 10; j++) {
-                    tiles2[i][j].setValue(maxNumber);
+                    tiles[i][j].setValue(maxNumber);
                     maxNumber--;
                     reverseNum++;
                 }
             } else {
                 reverseNum = maxNumber - 9;
                 for (int j = 0; j < 10; j++) {
-                    tiles2[i][j].setValue(reverseNum);
+                    tiles[i][j].setValue(reverseNum);
                     maxNumber--;
                     reverseNum++;
                 }
             }
         }
 
-        Board board2 = new Board(tiles2);
-        board2.printBoard();
+        Board board = new Board(tiles);
+        board.printBoard();
         }
         
     
@@ -143,13 +143,13 @@ class LadderAndSnake {
                 int diceRoll = 0;
                 int diceRoll2 = 0;
 
-
                 for (int i = 1; i <= amountOfPlayers; i++) {
                     diceRoll = playa[i - 1].flipDice();
                     System.out.println("Player " + i + " rolls " + diceRoll);
                     System.out.println("Player " + i + "'s new position is " + playa[i - 1].initialPosition(diceRoll));
                     diceRoll = 0;
                 }
+                
                 
                 System.out.println("-----------------------------------------------------------------------------");
                 System.out.println("Turn 0");
@@ -295,6 +295,11 @@ class Tile {
 	public Tile(int value, String player) {
 		this.value = value;
 		this.player = player;
+	}
+	//copy constructor
+	public Tile(Tile t) {
+		value = t.value;
+		player = t.player;
 	}
 
 	public int getValue() {
