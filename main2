@@ -1,64 +1,38 @@
-import java.util.Arrays;
-import java.util.Scanner;
+  
+import java.util.*;
 
-public class gameboard {
-//stuff in main will prolly get moved to playgame methode, in main just to test for now
+public class Main {
+    //stuff in main will prolly get moved to playgame methode, in main just to test for now
+    //STORE THE VALUES OF THE PLAYER POSITIONS IN 4 VARIABLES THAT KEEP GETTING UPDATE
+
+
     public static void main(String[] args) {
         // write your code here
-        Scanner kb = new Scanner(System.in);
-        int attempt = 0;
-        while(true) {
-        	System.out.println("How many players are playing today?: ");
-        	int amountOfPlayers = kb.nextInt();
-        	if (amountOfPlayers>=2 && amountOfPlayers<=4) {
-        		System.out.println("game is played by "+amountOfPlayers+" players.");
-        		LadderAndSnake yo = new LadderAndSnake(amountOfPlayers);
-        		Players[] playa = new Players[amountOfPlayers];
-        		for (int i = 0; i < amountOfPlayers; i++) {
-        			playa[i] = new Players();
-        }
-        		
-        		// this whole sequence can be looped for the whole simulation
-        		int diceRoll = 0;
-                int diceRoll2 = 0;
-                int diceRoll3 = 0;
-                diceRoll = playa[1].flipDice();
-                System.out.println("roll value is " + diceRoll);
-                System.out.println("position is " + playa[1].initialPosition(diceRoll));
-                diceRoll=0;
+    	Tile[][] tiles = { {new Tile(100), new Tile(99), new Tile(98), new Tile(97), new Tile(96), new Tile(95), new Tile(94), new Tile(93), new Tile(92), new Tile(91)} , 
+    			{new Tile(81), new Tile(82), new Tile(83), new Tile(84), new Tile(85), new Tile(86), new Tile(87), new Tile(88), new Tile(89), new Tile(90)},
+        		{new Tile(80), new Tile(79), new Tile(78), new Tile(77), new Tile(76), new Tile(75), new Tile(74), new Tile(73), new Tile(72), new Tile(71)}, 
+        		{new Tile(61), new Tile(62), new Tile(63), new Tile(64), new Tile(65), new Tile(66), new Tile(67), new Tile(68), new Tile(69), new Tile(70)},
+        		{new Tile(60), new Tile(59), new Tile(58), new Tile(57), new Tile(56), new Tile(55), new Tile(54), new Tile(53), new Tile(52), new Tile(51)},
+        		{new Tile(41), new Tile(42), new Tile(43), new Tile(44), new Tile(45), new Tile(46), new Tile(47), new Tile(48), new Tile(49), new Tile(50)},
+        		{new Tile(40), new Tile(39), new Tile(38), new Tile(37), new Tile(36), new Tile(35), new Tile(34), new Tile(33), new Tile(32), new Tile(31)}, 
+        		{new Tile(21), new Tile(22), new Tile(23), new Tile(24), new Tile(25), new Tile(26), new Tile(27), new Tile(28), new Tile(29), new Tile(30)}, 
+        		{new Tile(20), new Tile(19), new Tile(18), new Tile(17), new Tile(16), new Tile(15), new Tile(14), new Tile(13), new Tile(12), new Tile(11)}, 
+        		{new Tile(1), new Tile(2), new Tile(3), new Tile(4), new Tile(5), new Tile(6), new Tile(7), new Tile(8), new Tile(9), new Tile(10)} };
+    	Board board = new Board(tiles);
+    	board.printBoard();
+        LadderAndSnake k = new LadderAndSnake();
+        k.playGame();
 
-
-                // this whole sequence can be looped for the whole simulation
-                while (playa[1].playerPosition(diceRoll2) != 10) {
-                    diceRoll2 = playa[1].flipDice();
-                    System.out.println("new roll value is " + diceRoll2);
-                    System.out.println("new position is " + playa[1].playerPosition(diceRoll2));
-                    diceRoll2 = 0;
-                }
-        		break;
-        		
-        	}
-        	else {
-        		attempt++;
-        		if (attempt<4)
-        			System.out.println("Bad Attempt "+attempt+" - Invalid # of players. Please enter a # between 2 and 4 inclusively:");
-        		if (attempt==4) {
-        			System.out.println("Bad Attempt "+attempt+"! You have exhausted all your chances. Program will terminate!");
-        			System.exit(0);
-        		}
-        }
-       }
-       kb.close(); 
     }
 }
-
 
 class LadderAndSnake {
 
     int nbOfPlayers;
     final int winner = 100;
-    public LadderAndSnake(int nbOfPlayers) { //use the number of players to decide how the game loops, create a separate class for players
-        this.nbOfPlayers = nbOfPlayers;
+
+    public LadderAndSnake() { //use the number of players to decide how the game loops, create a separate class for players
+
 
         //THE GAME BOARD IN GOOD ORDER TOO xD, probably use this just for some sort of gui.
         int board[][] = new int[10][10];
@@ -84,10 +58,11 @@ class LadderAndSnake {
             System.out.println();
         }
 
-
-    }
-
-
+        
+        }
+        
+    
+    
 
     public int getNbOfPlayers() {
         return nbOfPlayers;
@@ -101,7 +76,132 @@ class LadderAndSnake {
     public String toString() {
         return "";
     }
-    public void playGame(){
+
+    public void determineOrder(int nbOfPlayers) {
+
+        Players[] User = new Players[nbOfPlayers];
+        Integer [] values = new Integer[] {0,0,0,0};
+        for (int i = 1; i<=nbOfPlayers; i++){
+            User[i-1] = new Players();
+            values[i-1] += User[i-1].flipDice();
+        }
+
+//        Players User1 = new Players();
+//        Players User2 = new Players();
+//        Players User3 = new Players();
+//        Players User4 = new Players();
+
+
+        //Integer [] values = new Integer[] { User1.flipDice(), User2.flipDice(), User3.flipDice(), User4.flipDice()};
+        Integer [] tiedValues = new Integer[]{0,0,0,0};
+
+
+        System.out.println("The dice has been rolled, User 1 rolled " + values[0] + ", User 2 rolled " + values[1] + ", User 3 rolled " + values[2] + ", User 4 rolled " + values[3] + "!");
+        Arrays.sort(values, Collections.reverseOrder());
+        for (int i = 0; i<values.length; i++){
+            for (int j = i+1; j< values.length; j++){
+                if (values[i].equals(values[j])){
+                    System.out.println("There was a tie between " + values[i] + " and " + values[j]);
+                    System.out.println("They have rerolled");
+
+                    values[i] = (int) (Math.random() * 6) + 1;
+                    tiedValues[1]+= values[i] ;
+
+                    values[j] = (int) (Math.random() * 6) + 1;
+                    tiedValues[0]+= values[j];
+                    Arrays.sort(tiedValues, Collections.reverseOrder());
+
+                    System.out.println(tiedValues[0]);
+                    System.out.println(tiedValues[1]);
+                }
+            }
+        }
+
+        System.out.println("The order of Players will be the following: ");
+        System.out.println("Player 1: User with the dice roll of " + values[0]);
+        System.out.println("Player 2: User with the dice roll of " + values[1]);
+        System.out.println("Player 3: User with the dice roll of " + values[2]);
+        System.out.println("Player 4: User with the dice roll of " + values[3]);
+
+        System.out.println("-----------------------------------------------------------------------------");
+
+
+
+
+    }
+
+    public void playGame() {
+        Scanner kb = new Scanner(System.in);
+        int attempt = 0;
+        while (true) {
+            System.out.println("How many players are playing today?: ");
+            int amountOfPlayers = kb.nextInt();
+            if (amountOfPlayers >= 2 && amountOfPlayers <= 4) {
+                System.out.println("Game is played by " + amountOfPlayers + " players!");
+
+                determineOrder(amountOfPlayers);
+
+                Players[] playa = new Players[amountOfPlayers];
+
+                for (int i = 1; i <= amountOfPlayers; i++) {
+                    playa[i - 1] = new Players();
+
+                }
+
+                //dicerolls
+                int diceRoll = 0;
+                int diceRoll2 = 0;
+
+
+                for (int i = 1; i <= amountOfPlayers; i++) {
+                    diceRoll = playa[i - 1].flipDice();
+                    System.out.println("Player " + i + " rolls " + diceRoll);
+                    System.out.println("Player " + i + "'s new position is " + playa[i - 1].initialPosition(diceRoll));
+                    diceRoll = 0;
+                }
+                System.out.println("-----------------------------------------------------------------------------");
+                System.out.println("Turn 0");
+                System.out.println("-----------------------------------------------------------------------------");
+
+                // this whole sequence can be looped for the whole simulation
+                int turnCount = 1;
+                while (turnCount < 100) {
+                    for (int i = 1; i <= amountOfPlayers; i++) {
+
+
+                        diceRoll2 = playa[i - 1].flipDice();
+                        System.out.println("Player " + i + " rolls " + diceRoll2);
+                        System.out.println("Player " + i + "'s new position is " + playa[i - 1].playerPosition(diceRoll2));
+                        diceRoll2 = 0;
+                        if (playa[i - 1].playerPosition(diceRoll2) == 100) {
+                            System.out.println("Game Over! Player " + i + " Won!");
+                            System.exit(0);
+                        }
+
+
+                    }
+                    System.out.println("-----------------------------------------------------------------------------");
+                    System.out.println("Turn " + turnCount);
+                    System.out.println("-----------------------------------------------------------------------------");
+                    turnCount++;
+
+
+                }
+
+
+            } else {
+                attempt++;
+                if (attempt < 4) {
+                    System.out.println("Bad attempt " + attempt + " - Invalid # of players. Please enter a # between 2 and 4 inclusively: ");
+                }
+                if (attempt == 4) {
+                    System.out.println("Bad attempt " + attempt + "! You have exhausted all your chances. Program will terminate!");
+                    System.exit(0);
+                }
+            }
+
+        }
+
 
     }
 
@@ -109,6 +209,32 @@ class LadderAndSnake {
 
 
 class Players {
+    static Map<Integer, Integer> snake = new HashMap<Integer, Integer>();
+    static Map<Integer, Integer> ladder = new HashMap<Integer, Integer>();
+
+    {
+        snake.put(16, 6);
+        snake.put(48, 30);
+        snake.put(64, 60);
+        snake.put(79, 19);
+        snake.put(93, 68);
+        snake.put(95, 24);
+        snake.put(97, 76);
+        snake.put(98, 78);
+
+        ladder.put(1, 38);
+        ladder.put(4, 14);
+        ladder.put(9, 31);
+        ladder.put(21, 42);
+        ladder.put(28, 84);
+        ladder.put(36, 44);
+        ladder.put(51, 67);
+        ladder.put(71, 91);
+        ladder.put(80, 100);
+
+
+    }
+
     private static int count = 0;
     private static int startPosition = 0;
     private int PosAfter = 0;
@@ -120,19 +246,173 @@ class Players {
     public static void numberOfPlayers() {
         System.out.println(count);
     }
+
     public int flipDice() {
         int diceValue = (int) (Math.random() * 6) + 1;
         return diceValue;
     }
 
-    public int initialPosition(int diceValue){
+    public int initialPosition(int diceValue) {
         PosAfter = startPosition + diceValue;
         return PosAfter;
     }
 
-    public int playerPosition(int diceValue2){
-        int ppos = PosAfter + diceValue2;
-        return ppos;
+
+    public int playerPosition(int diceValue2) {
+        int newPos = PosAfter + diceValue2;
+        if (newPos > 100) {
+            newPos = 100 - (newPos - 100);
+            PosAfter = newPos;
+            return newPos;
+        }
+        if (null != snake.get(PosAfter)) {
+            System.out.println("swallowed by snake");
+            PosAfter = snake.get(PosAfter);
+            return PosAfter;
+        }
+        if (null != ladder.get(PosAfter)) {
+            System.out.println("Climb up the ladder");
+            PosAfter = ladder.get(PosAfter);
+            return PosAfter;
+        } else {
+            PosAfter += diceValue2;
+            PosAfter = newPos;
+            return newPos;
+        }
+
+
     }
+
+
+}
+
+class Tile {
+	int value;
+	String player;
+
+	public Tile() {
+		value = 0;
+		player = null;
+	}
+	
+	public Tile(int value) {
+		this.value = value;
+	}
+
+	public Tile(int value, String player) {
+		this.value = value;
+		this.player = player;
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public String getPlayer() {
+		return player;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
+	}
+
+	public void setPlayer(String Player) {
+		this.player = Player;
+	}
+
+	
+	public String toString() {
+		String res = "";
+		String res2 = "";
+
+		if(player == "")
+			return "";
+		if(player == "P1")
+			res = "P1";
+		if(player == "P2")
+			res = "P2";
+		if(player == "P3")
+			res = "P3";
+		if(player == "P4")
+			res = "P4";
+		
+		switch(value) {
+		case 1:
+			res2 = "L->38";
+			break;
+		case 4:
+			res2 = "L->14";
+			break;
+		case 9:
+			res2 = "L->31";
+			break;
+		case 21:
+			res2 = "L->42";
+			break;
+		case 36:
+			res2 = "L->44";
+			break;
+		case 28:
+			res2 = "L->84";
+			break;
+		case 51:
+			res2 = "L->67";
+			break;
+		case 71:
+			res2 = "L->91";
+			break;
+		case 80:
+			res2 = "L->100";
+			break;
+			
+		case 16:
+			res2 = "S->6";
+			break;
+		case 48:
+			res2 = "S->30";
+			break;
+		case 64:
+			res2 = "S->60";
+			break;
+		case 79:
+			res2 = "S->19";
+			break;
+		case 93:
+			res2 = "S->68";
+			break;
+		case 95:
+			res2 = "S->24";
+			break;
+		case 97:
+			res2 = "S->76";
+			break;
+		case 98:
+			res2 = "S->78";
+			break;
+		}
+		return ("|  "+value+" "+res2+" "+res+"|");
+
+	}
+
+}
+
+class Board {
+	private Tile[][] board;
+
+	public Board(Tile[][] tiles) {
+		board = tiles;
+
+	}
+	
+	public void printBoard() {
+
+		for (int i = 0; i < 10; i++) {
+			System.out.println();
+			for (int j = 0; j < 10; j++) {
+				System.out.printf("%16s", board[i][j]);
+			}
+			System.out.println();
+		}
+	}
 
 }
