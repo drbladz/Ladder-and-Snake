@@ -70,12 +70,15 @@ class LadderAndSnake {
             User[i - 1] = new Players();
             values[i - 1] = User[i - 1].flipDice();
             }
+        System.out.println(Arrays.toString(values));
         for (int i = 1; i<= values.length; i++){
             for (int j = i+1; j<=values.length; j++){
                 if (values[i-1].equals(values[j-1])){
                     values[i - 1] = User[i - 1].flipDice();
                     System.out.println("There was a tie ");
                     System.out.println("They have rerolled");
+                    System.out.println(values[i-1]);
+                    System.out.println(values[j-1]);
                 }
             }
         }
