@@ -23,6 +23,7 @@ class LadderAndSnake {
 
 
         //THE GAME BOARD IN GOOD ORDER TOO xD, probably use this just for some sort of gui.
+    	//Create board(2d array of objects (Tile))
         Tile[][] tiles = new Tile[10][10];
         int maxNumber = 100;
         int reverseNum = 90;
@@ -47,11 +48,44 @@ class LadderAndSnake {
                 }
             }
         }
-
+        //Print board
         Board board = new Board(tiles);
         board.printBoard();
         }
-        
+    
+    //Create a copy of the board
+    public Tile[][] Copy(Tile[][] tiles2) {
+    	Tile[][] tiles = new Tile[10][10];
+        int maxNumber = 100;
+        int reverseNum = 90;
+        for(int i=0; i<10; i++) {
+        	for(int j=0; j<10; j++) {
+        		tiles[i][j] = new Tile();
+        	}
+        }
+        for (int i = 0; i < 10; i++) {
+            if (i % 2 == 0) {
+                for (int j = 0; j < 10; j++) {
+                    tiles[i][j].setValue(maxNumber);
+                    maxNumber--;
+                    reverseNum++;
+                }
+            } else {
+                reverseNum = maxNumber - 9;
+                for (int j = 0; j < 10; j++) {
+                    tiles[i][j].setValue(reverseNum);
+                    maxNumber--;
+                    reverseNum++;
+                }
+            }
+        }
+        for(int i=0; i<10; i++) {
+        	for(int j=0; j<10; j++) {
+        		tiles2[i][j] = tiles[i][j];
+        	}
+        }
+        return tiles2;
+    }
     
     
 
@@ -142,14 +176,51 @@ class LadderAndSnake {
                 //dicerolls
                 int diceRoll = 0;
                 int diceRoll2 = 0;
-
+                Tile[][] tiles = new Tile[10][10];
+                //Create a fresh new board
+                Tile[][] tilescopy = Copy(tiles);
                 for (int i = 1; i <= amountOfPlayers; i++) {
                     diceRoll = playa[i - 1].flipDice();
                     System.out.println("Player " + i + " rolls " + diceRoll);
                     System.out.println("Player " + i + "'s new position is " + playa[i - 1].initialPosition(diceRoll));
+                    //Place the players in their new tiles
+                    for(int j=0; j<10; j++) {
+                    	for(int k=0; k<10; k++) {
+                    		if(tilescopy[j][k].value == playa[i - 1].initialPosition(diceRoll)) {
+                    			//Check if no players are on this tile
+                    			if(tilescopy[j][k].player == null) {
+                    				switch(i) {
+                    				case 1:
+                    					tilescopy[j][k].setPlayer("P1");
+                    					break;
+                    				case 2:
+                    					tilescopy[j][k].setPlayer("P2");
+                    					break;
+                    				case 3:
+                    					tilescopy[j][k].setPlayer("P3");
+                    					break;
+                    				case 4:
+                    					tilescopy[j][k].setPlayer("P4");
+                    					break;
+                    			}
+                    			
+                    			}
+                    			//If there is already a player on the tile, print 1+
+                    			else {
+                    				tilescopy[j][k].setPlayer("1+");
+                    			}
+                    				
+                    		}
+                    		
+                    	}
+                    }
                     diceRoll = 0;
                 }
-                
+                //Print board with new positions
+                Board initialMovement = new Board(tilescopy);
+                initialMovement.printBoard();
+                //Reset board
+                tilescopy = Copy(tiles);
                 
                 System.out.println("-----------------------------------------------------------------------------");
                 System.out.println("Turn 0");
@@ -172,6 +243,8 @@ class LadderAndSnake {
 
 
                     }
+                  
+             
                     System.out.println("-----------------------------------------------------------------------------");
                     System.out.println("Turn " + turnCount);
                     System.out.println("-----------------------------------------------------------------------------");
@@ -277,7 +350,7 @@ class Players {
 
 
 }
-
+//Creating object with two attributes. It represents each tile of the board with its number and the player on it (if it is the case)
 class Tile {
 	int value;
 	String player;
@@ -318,21 +391,24 @@ class Tile {
 		this.player = Player;
 	}
 
-	
+	//This is ultimately setting up what each tile of the board will look like when printed. Creating the layout of the tiles. 
 	public String toString() {
 		String res = "";
 		String res2 = "";
 
 		if(player == "")
 			return "";
-		if(player == "P1")
+		else if(player == "P1")
 			res = "(P1)";
-		if(player == "P2")
+		else if(player == "P2")
 			res = "(P2)";
-		if(player == "P3")
+		else if(player == "P3")
 			res = "(P3)";
-		if(player == "P4")
+		else if(player == "P4")
 			res = "(P4)";
+		else if(player == "1+")
+			res = "(1+)";
+	
 		
 		switch(value) {
 		case 1:
@@ -401,7 +477,7 @@ class Board {
 		board = tiles;
 
 	}
-	
+	//Method to print board
 	public void printBoard() {
 
 		for (int i = 0; i < 10; i++) {
