@@ -65,24 +65,27 @@ class LadderAndSnake {
     public void determineOrder(int nbOfPlayers) {
 
         Players[] User = new Players[nbOfPlayers];
-        Integer [] values = new Integer[] {0,0,0,0};
+        Integer [] values = new Integer[nbOfPlayers] ;
         for (int i = 1; i<=nbOfPlayers; i++){
             User[i-1] = new Players();
-            values[i-1] += User[i-1].flipDice();
-        }
+            values[i-1] = User[i-1].flipDice();
 
-//        Players User1 = new Players();
-//        Players User2 = new Players();
-//        Players User3 = new Players();
-//        Players User4 = new Players();
+
+
+        }
 
 
         //Integer [] values = new Integer[] { User1.flipDice(), User2.flipDice(), User3.flipDice(), User4.flipDice()};
-        Integer [] tiedValues = new Integer[]{0,0,0,0};
+        Integer [] tiedValues = new Integer[nbOfPlayers];
 
-
-        System.out.println("The dice has been rolled, User 1 rolled " + values[0] + ", User 2 rolled " + values[1] + ", User 3 rolled " + values[2] + ", User 4 rolled " + values[3] + "!");
+        for (int i = 1; i<=nbOfPlayers; i++){
+            System.out.println("The dice has been rolled, User " + i + " rolled " + values[i-1]);
+        }
         Arrays.sort(values, Collections.reverseOrder());
+        System.out.println("-----------------------------------------------------------------------------");
+
+        
+
         for (int i = 0; i<values.length; i++){
             for (int j = i+1; j< values.length; j++){
                 if (values[i].equals(values[j])){
@@ -90,10 +93,10 @@ class LadderAndSnake {
                     System.out.println("They have rerolled");
 
                     values[i] = (int) (Math.random() * 6) + 1;
-                    tiedValues[1]+= values[i] ;
+                    tiedValues[1] = values[i] ;
 
                     values[j] = (int) (Math.random() * 6) + 1;
-                    tiedValues[0]+= values[j];
+                    tiedValues[0] = values[j];
                     Arrays.sort(tiedValues, Collections.reverseOrder());
 
                     System.out.println(tiedValues[0]);
@@ -103,10 +106,10 @@ class LadderAndSnake {
         }
 
         System.out.println("The order of Players will be the following: ");
-        System.out.println("Player 1: User with the dice roll of " + values[0]);
-        System.out.println("Player 2: User with the dice roll of " + values[1]);
-        System.out.println("Player 3: User with the dice roll of " + values[2]);
-        System.out.println("Player 4: User with the dice roll of " + values[3]);
+        for (int i=1; i<=nbOfPlayers; i++){
+            System.out.println("Player " + i + ": User with the dice roll of " + values[i-1]);
+        }
+
 
         System.out.println("-----------------------------------------------------------------------------");
 
