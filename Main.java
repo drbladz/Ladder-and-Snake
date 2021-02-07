@@ -63,57 +63,51 @@ class LadderAndSnake {
     }
 
     public void determineOrder(int nbOfPlayers) {
-
+        int tieCount = 0;
         Players[] User = new Players[nbOfPlayers];
-        Integer [] values = new Integer[nbOfPlayers] ;
-        for (int i = 1; i<=nbOfPlayers; i++){
-            User[i-1] = new Players();
-            values[i-1] = User[i-1].flipDice();
-
-
-
-        }
-
-
-        //Integer [] values = new Integer[] { User1.flipDice(), User2.flipDice(), User3.flipDice(), User4.flipDice()};
-        Integer [] tiedValues = new Integer[nbOfPlayers];
-
-        for (int i = 1; i<=nbOfPlayers; i++){
-            System.out.println("The dice has been rolled, User " + i + " rolled " + values[i-1]);
-        }
-        Arrays.sort(values, Collections.reverseOrder());
-        System.out.println("-----------------------------------------------------------------------------");
-
-        
-
-        for (int i = 0; i<values.length; i++){
-            for (int j = i+1; j< values.length; j++){
-                if (values[i].equals(values[j])){
-                    System.out.println("There was a tie between " + values[i] + " and " + values[j]);
+        Integer[] values = new Integer[nbOfPlayers];
+        for (int i = 1; i <= nbOfPlayers; i++) {
+            User[i - 1] = new Players();
+            values[i - 1] = User[i - 1].flipDice();
+            }
+        for (int i = 1; i<= values.length; i++){
+            for (int j = i+1; j<=values.length; j++){
+                if (values[i-1].equals(values[j-1])){
+                    values[i - 1] = User[i - 1].flipDice();
+                    System.out.println("There was a tie ");
                     System.out.println("They have rerolled");
-
-                    values[i] = (int) (Math.random() * 6) + 1;
-                    tiedValues[1] = values[i] ;
-
-                    values[j] = (int) (Math.random() * 6) + 1;
-                    tiedValues[0] = values[j];
-                    Arrays.sort(tiedValues, Collections.reverseOrder());
-
-                    System.out.println(tiedValues[0]);
-                    System.out.println(tiedValues[1]);
                 }
             }
         }
 
+
+
+
+        for (int i = 1; i <= nbOfPlayers; i++) {
+            System.out.println("The dice has been rolled, User " + i + " rolled " + values[i - 1]);
+        }
+        Arrays.sort(values, Collections.reverseOrder());
+        System.out.println("-----------------------------------------------------------------------------");
+
+
+//        for (int i = 0; i < values.length; i++) {
+//            for (int j = i + 1; j < values.length; j++) {
+//                if (values[i].equals(values[j])) {
+//                    System.out.println("There was a tie ");
+//                    System.out.println("They have rerolled");
+//
+//                }
+//            }
+//        }
+
+
         System.out.println("The order of Players will be the following: ");
-        for (int i=1; i<=nbOfPlayers; i++){
-            System.out.println("Player " + i + ": User with the dice roll of " + values[i-1]);
+        for (int i = 1; i <= nbOfPlayers; i++) {
+            System.out.println("Player " + i + ": User with the dice roll of " + values[i - 1]);
         }
 
 
         System.out.println("-----------------------------------------------------------------------------");
-
-
 
 
     }
@@ -141,15 +135,15 @@ class LadderAndSnake {
                 int diceRoll2 = 0;
 
 
-                for (int i = 1; i <= amountOfPlayers; i++) {
-                    diceRoll = playa[i - 1].flipDice();
-                    System.out.println("Player " + i + " rolls " + diceRoll);
-                    System.out.println("Player " + i + "'s new position is " + playa[i - 1].initialPosition(diceRoll));
-                    diceRoll = 0;
-                }
-                System.out.println("-----------------------------------------------------------------------------");
-                System.out.println("Turn 0");
-                System.out.println("-----------------------------------------------------------------------------");
+//                for (int i = 1; i <= amountOfPlayers; i++) {
+//                    diceRoll = playa[i - 1].flipDice();
+//                    System.out.println("Player " + i + " rolls " + diceRoll);
+//                    System.out.println("Player " + i + "'s new position is " + playa[i - 1].initialPosition(diceRoll));
+//                    diceRoll = 0;
+//                }
+//                System.out.println("-----------------------------------------------------------------------------");
+//                System.out.println("Turn 0");
+//                System.out.println("-----------------------------------------------------------------------------");
 
                 // this whole sequence can be looped for the whole simulation
                 int turnCount = 1;
