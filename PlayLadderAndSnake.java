@@ -1,11 +1,28 @@
+/**
+ Sam Mojaverian (40174101) and Tahmid Rahman (40174589)
+ COMP249
+ Assignment #1
+ Due Monday February 8, 2021
+ */
+
+
+
+
+
 import java.util.*;
 
-public class Main {
-    //stuff in main will prolly get moved to playgame methode, in main just to test for now
-    //STORE THE VALUES OF THE PLAYER POSITIONS IN 4 VARIABLES THAT KEEP GETTING UPDATE
+/**
+ * Driver Class, runs the game
+ *
+ * @author Sam Mojaverian & Tahmid Rahman
+ */
+public class PlayLadderAndSnake {
+
 
 
     public static void main(String[] args) {
+
+        System.out.println("Welcome to the Ladder And Snake game, made by Sam Mojaverian and Tahmid Rahman!");
         // write your code here
         LadderAndSnake k = new LadderAndSnake();
         k.playGame();
@@ -13,12 +30,26 @@ public class Main {
     }
 }
 
+/**
+ * Ladder and Snake Class
+ * <p>
+ *     creates the game board, determines the number of players and the order of play.
+ * </p>
+ * <p>
+ *     contains the playGame method that runs the game
+ * </p>
+ *
+ * @author Sam Mojaverian & Tahmid Rahman
+ */
 class LadderAndSnake {
 
     int nbOfPlayers;
     final int winner = 100;
 
-    public LadderAndSnake() { //use the number of players to decide how the game loops, create a separate class for players
+    /**
+     * Create the game board
+     */
+    public LadderAndSnake() {
 
 
         Tile[][] tiles = new Tile[10][10];
@@ -50,7 +81,11 @@ class LadderAndSnake {
         board.printBoard();
     }
 
-    //Create a copy of the board
+    /**
+     *
+     * @param tiles2
+     * @return the tile 2d array
+     */
     public Tile[][] Copy(Tile[][] tiles2) {
         Tile[][] tiles = new Tile[10][10];
         int maxNumber = 100;
@@ -84,7 +119,10 @@ class LadderAndSnake {
         return tiles2;
     }
 
-
+    /**
+     *
+     * @return
+     */
     public int getNbOfPlayers() {
         return nbOfPlayers;
     }
@@ -98,6 +136,10 @@ class LadderAndSnake {
         return "";
     }
 
+    /**
+     * Determines the order of play with an initial diceroll
+     * @param nbOfPlayers takes the declared number of players and creates User objects
+     */
     public void determineOrder(int nbOfPlayers) {
         int tieCount = 0;
         Players[] User = new Players[nbOfPlayers];
@@ -141,16 +183,6 @@ class LadderAndSnake {
         System.out.println("-----------------------------------------------------------------------------");
 
 
-//        for (int i = 0; i < values.length; i++) {
-//            for (int j = i + 1; j < values.length; j++) {
-//                if (values[i].equals(values[j])) {
-//                    System.out.println("There was a tie ");
-//                    System.out.println("They have rerolled");
-//
-//                }
-//            }
-//        }
-
 
         System.out.println("The order of Players will be the following: ");
         for (int i = 1; i <= nbOfPlayers; i++) {
@@ -163,6 +195,9 @@ class LadderAndSnake {
 
     }
 
+    /**
+     * The game loop, asks how many players are playing and starts the game
+     */
     public void playGame() {
         Scanner kb = new Scanner(System.in);
         int attempt = 0;
@@ -180,22 +215,11 @@ class LadderAndSnake {
                     playa[i - 1] = new Players();
                 }
 
-                //dicerolls
-                int diceRoll = 0;
+
                 int diceRoll2 = 0;
 
 
-//                for (int i = 1; i <= amountOfPlayers; i++) {
-//                    diceRoll = playa[i - 1].flipDice();
-//                    System.out.println("Player " + i + " rolls " + diceRoll);
-//                    System.out.println("Player " + i + "'s new position is " + playa[i - 1].initialPosition(diceRoll));
-//                    diceRoll = 0;
-//                }
-//                System.out.println("-----------------------------------------------------------------------------");
-//                System.out.println("Turn 0");
-//                System.out.println("-----------------------------------------------------------------------------");
 
-                // this whole sequence can be looped for the whole simulation
                 int turnCount = 1;
                 while (turnCount < 100) {
                     for (int i = 1; i <= amountOfPlayers; i++) {
@@ -239,7 +263,11 @@ class LadderAndSnake {
 
 }
 
-
+/**
+ * The class that contains the player positions and  the snake and ladder positions
+ *
+ * @author Sam Mojaverian
+ */
 class Players {
     static Map<Integer, Integer> snake = new HashMap<Integer, Integer>();
     static Map<Integer, Integer> ladder = new HashMap<Integer, Integer>();
@@ -271,6 +299,9 @@ class Players {
     private static int startPosition = 0;
     private int PosAfter = 0;
 
+    /**
+     *
+     */
     public Players() {
         count++;
     }
@@ -279,17 +310,21 @@ class Players {
         System.out.println(count);
     }
 
+    /**
+     * 6 sided dice RNG
+     * @return the value on a dice
+     */
     public int flipDice() {
         int diceValue = (int) (Math.random() * 6) + 1;
         return diceValue;
     }
 
-    public int initialPosition(int diceValue) {
-        PosAfter = startPosition + diceValue;
-        return PosAfter;
-    }
 
-
+    /**
+     * Player position method, takes into account snakes and ladders
+     * @param diceValue2 the value of the dice
+     * @return the position of the player who rolled a dice
+     */
     public int playerPosition(int diceValue2) {
         int newPos = PosAfter + diceValue2;
         if (newPos > 100) {
@@ -318,6 +353,10 @@ class Players {
 
 }
 
+/**
+ * The tiles on the board
+ * @author Tahmid Rahman
+ */
 class Tile {
     int value;
     String player;
@@ -336,7 +375,11 @@ class Tile {
         this.value = value;
         this.player = player;
     }
-    //copy constructor
+
+    /**
+     * Copy Constructor
+     * @param t
+     */
     public Tile(Tile t) {
         value = t.value;
         player = t.player;
@@ -358,7 +401,10 @@ class Tile {
         this.player = Player;
     }
 
-    //This is ultimately setting up what each tile of the board will look like when printed. Creating the layout of the tiles.
+    /**
+     * This is ultimately setting up what each tile of the board will look like when printed. Creating the layout of the tiles.
+     * @return the layout of the tiles
+     */
     public String toString() {
         String res = "";
         String res2 = "";
@@ -437,14 +483,25 @@ class Tile {
 
 }
 
+/**
+ * The game board
+ *
+ * @author Tahmid Rahman
+ */
 class Board {
     private Tile[][] board;
 
+    /**
+     *
+     * @param tiles
+     */
     public Board(Tile[][] tiles) {
         board = tiles;
 
     }
-    //Method to print board
+    /**
+     * Method that prints the game board
+     */
     public void printBoard() {
 
         for (int i = 0; i < 10; i++) {
