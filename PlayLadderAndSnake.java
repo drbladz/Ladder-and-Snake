@@ -19,7 +19,10 @@ import java.util.*;
 public class PlayLadderAndSnake {
 
 
-
+    /**
+     * main
+     * @param args
+     */
     public static void main(String[] args) {
 
         System.out.println("Welcome to the Ladder And Snake game, made by Sam Mojaverian and Tahmid Rahman!");
@@ -120,18 +123,25 @@ class LadderAndSnake {
     }
 
     /**
-     *
+     *getter
      * @return
      */
     public int getNbOfPlayers() {
         return nbOfPlayers;
     }
 
+    /**
+     * setter
+     * @param nbOfPlayers
+     */
     public void setNbOfPlayers(int nbOfPlayers) {
         this.nbOfPlayers = nbOfPlayers;
     }
 
-
+    /**
+     * basic toString
+     * @return
+     */
     public String toString() {
         return "";
     }
@@ -300,16 +310,15 @@ class Players {
     private static int startPosition = 0;
     private int PosAfter = 0;
 
-    /**
-     *
-     */
-    public Players() {
-        count++;
-    }
 
-    public static void numberOfPlayers() {
-        System.out.println(count);
-    }
+//    public Players() {
+//        count++;
+//    }
+//
+//
+//    public static void numberOfPlayers() {
+//        System.out.println(count);
+//    }
 
     /**
      * 6 sided dice RNG
@@ -362,16 +371,28 @@ class Tile {
     int value;
     String player;
 
+    /**
+     * Constructor
+     */
     public Tile() {
         value = 0;
         player = null;
     }
 
+    /**
+     * Constructor with parameter value
+     * @param value
+     */
     public Tile(int value) {
         this.value = value;
         player = "";
     }
 
+    /**
+     * Constructor with value and player
+     * @param value
+     * @param player
+     */
     public Tile(int value, String player) {
         this.value = value;
         this.player = player;
@@ -386,18 +407,34 @@ class Tile {
         player = t.player;
     }
 
+    /**
+     * getter method for value
+     * @return
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     * getter method for player
+     * @return
+     */
     public String getPlayer() {
         return player;
     }
 
+    /**
+     * setter method for value
+     * @param value
+     */
     public void setValue(int value) {
         this.value = value;
     }
 
+    /**
+     * setter method for player
+     * @param Player
+     */
     public void setPlayer(String Player) {
         this.player = Player;
     }
