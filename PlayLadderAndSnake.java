@@ -149,6 +149,7 @@ class LadderAndSnake {
             values[i - 1] = User[i - 1].flipDice();
         }
         Arrays.sort(values, Collections.reverseOrder());
+        System.out.println("The sorted dice values are: ");
         System.out.println(Arrays.toString(values));
 
 
@@ -162,14 +163,14 @@ class LadderAndSnake {
                     p2 = (int) (Math.random() * 6) + 1;
                     System.out.println("tie again!");
                 }
-                System.out.println("Player " + i + " rolled " + p1);
-                System.out.println("Player " + (i+1) + " rolled " + p2);
+                System.out.println("User " + i + " rolled " + p2);
+                System.out.println("User " + (i+1) + " rolled " + p1);
                 if (p1 > p2) {
                     values[i - 1] = p1;
                     values[i] = p2;
-                    System.out.println("Player " + i + " will go before Player " + (i+1));
+                    System.out.println("Player " + i + " will go after Player " + (i+1));
                 } else {
-                    System.out.println("Player " + (i+1) + " will go before Player " + i);
+                    System.out.println("Player " + (i+1) + " will go after Player " + i);
                     values[i - 1] = p2;
                     values[i] = p1;
                 }
