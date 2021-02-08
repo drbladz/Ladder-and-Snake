@@ -142,6 +142,7 @@ class LadderAndSnake {
 
                 for (int i = 1; i <= amountOfPlayers; i++) {
                     playa[i - 1] = new Players();
+
                 }
 
                 //dicerolls

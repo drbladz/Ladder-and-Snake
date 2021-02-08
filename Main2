@@ -102,58 +102,70 @@ class LadderAndSnake {
         return "";
     }
 
-    public void determineOrder(int nbOfPlayers) {
-
-        Players[] User = new Players[nbOfPlayers];
-        Integer [] values = new Integer[] {0,0,0,0};
-        for (int i = 1; i<=nbOfPlayers; i++){
-            User[i-1] = new Players();
-            values[i-1] += User[i-1].flipDice();
-        }
-
-//        Players User1 = new Players();
-//        Players User2 = new Players();
-//        Players User3 = new Players();
-//        Players User4 = new Players();
-
-
-        //Integer [] values = new Integer[] { User1.flipDice(), User2.flipDice(), User3.flipDice(), User4.flipDice()};
-        Integer [] tiedValues = new Integer[]{0,0,0,0};
-
-
-        System.out.println("The dice has been rolled, User 1 rolled " + values[0] + ", User 2 rolled " + values[1] + ", User 3 rolled " + values[2] + ", User 4 rolled " + values[3] + "!");
-        Arrays.sort(values, Collections.reverseOrder());
-        for (int i = 0; i<values.length; i++){
-            for (int j = i+1; j< values.length; j++){
-                if (values[i].equals(values[j])){
-                    System.out.println("There was a tie between " + values[i] + " and " + values[j]);
-                    System.out.println("They have rerolled");
-
-                    values[i] = (int) (Math.random() * 6) + 1;
-                    tiedValues[1]+= values[i] ;
-
-                    values[j] = (int) (Math.random() * 6) + 1;
-                    tiedValues[0]+= values[j];
-                    Arrays.sort(tiedValues, Collections.reverseOrder());
-
-                    System.out.println(tiedValues[0]);
-                    System.out.println(tiedValues[1]);
-                }
-            }
-        }
-
-        System.out.println("The order of Players will be the following: ");
-        System.out.println("Player 1: User with the dice roll of " + values[0]);
-        System.out.println("Player 2: User with the dice roll of " + values[1]);
-        System.out.println("Player 3: User with the dice roll of " + values[2]);
-        System.out.println("Player 4: User with the dice roll of " + values[3]);
-
-        System.out.println("-----------------------------------------------------------------------------");
+   public void determineOrder(int nbOfPlayers) {
+           int tieCount = 0;
+           Players[] User = new Players[nbOfPlayers];
+           Integer[] values = new Integer[nbOfPlayers];
+           for (int i = 1; i <= nbOfPlayers; i++) {
+               User[i - 1] = new Players();
+               values[i - 1] = User[i - 1].flipDice();
+           }
+           Arrays.sort(values, Collections.reverseOrder());
+           System.out.println(Arrays.toString(values));
 
 
 
+           for (int i = 1; i < values.length; i++) {
+               if (values[i - 1].equals(values[i])) {
+                   int p1 = (int) (Math.random() * 6) + 1;
+                   int p2 = (int) (Math.random() * 6) + 1;
+                   while (p1 == p2) {
+                       p1 = (int) (Math.random() * 6) + 1;
+                       p2 = (int) (Math.random() * 6) + 1;
+                       System.out.println("tie again!");
+                   }
+                   System.out.println("Player " + i + " rolled " + p1);
+                   System.out.println("Player " + (i+1) + " rolled " + p2);
+                   if (p1 > p2) {
+                       values[i - 1] = p1;
+                       values[i] = p2;
+                       System.out.println("Player " + i + " will go before Player " + (i+1));
+                   } else {
+                       System.out.println("Player " + (i+1) + " will go before Player " + i);
+                       values[i - 1] = p2;
+                       values[i] = p1;
+                   }
+                   i++;
 
-    }
+               }
+           }
+           for (int i = 1; i <= nbOfPlayers; i++) {
+               System.out.println("The dice has been rolled, User " + i + " rolled " + values[i - 1]);
+           }
+           System.out.println("-----------------------------------------------------------------------------");
+
+
+   //        for (int i = 0; i < values.length; i++) {
+   //            for (int j = i + 1; j < values.length; j++) {
+   //                if (values[i].equals(values[j])) {
+   //                    System.out.println("There was a tie ");
+   //                    System.out.println("They have rerolled");
+   //
+   //                }
+   //            }
+   //        }
+
+
+           System.out.println("The order of Players will be the following: ");
+           for (int i = 1; i <= nbOfPlayers; i++) {
+               System.out.println("Player " + i + ": User with the dice roll of " + values[i - 1]);
+           }
+
+
+           System.out.println("-----------------------------------------------------------------------------");
+
+
+       }
 
     public void playGame() {
         Scanner kb = new Scanner(System.in);
