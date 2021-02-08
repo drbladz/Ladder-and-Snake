@@ -21,31 +21,67 @@ class LadderAndSnake {
     public LadderAndSnake() { //use the number of players to decide how the game loops, create a separate class for players
 
 
-        //THE GAME BOARD IN GOOD ORDER TOO xD, probably use this just for some sort of gui.
-        int board[][] = new int[10][10];
+        Tile[][] tiles = new Tile[10][10];
         int maxNumber = 100;
         int reverseNum = 90;
+        for(int i=0; i<10; i++) {
+            for(int j=0; j<10; j++) {
+                tiles[i][j] = new Tile();
+            }
+        }
         for (int i = 0; i < 10; i++) {
             if (i % 2 == 0) {
                 for (int j = 0; j < 10; j++) {
-                    board[i][j] = maxNumber;
-                    System.out.print(board[i][j] + "\t");
+                    tiles[i][j].setValue(maxNumber);
                     maxNumber--;
                     reverseNum++;
                 }
             } else {
                 reverseNum = maxNumber - 9;
                 for (int j = 0; j < 10; j++) {
-                    board[i][j] = reverseNum;
-                    System.out.print(board[i][j] + "\t");
+                    tiles[i][j].setValue(reverseNum);
                     maxNumber--;
                     reverseNum++;
                 }
             }
-            System.out.println();
         }
+        //Print board
+        Board board = new Board(tiles);
+        board.printBoard();
+    }
 
-
+    //Create a copy of the board
+    public Tile[][] Copy(Tile[][] tiles2) {
+        Tile[][] tiles = new Tile[10][10];
+        int maxNumber = 100;
+        int reverseNum = 90;
+        for(int i=0; i<10; i++) {
+            for(int j=0; j<10; j++) {
+                tiles[i][j] = new Tile();
+            }
+        }
+        for (int i = 0; i < 10; i++) {
+            if (i % 2 == 0) {
+                for (int j = 0; j < 10; j++) {
+                    tiles[i][j].setValue(maxNumber);
+                    maxNumber--;
+                    reverseNum++;
+                }
+            } else {
+                reverseNum = maxNumber - 9;
+                for (int j = 0; j < 10; j++) {
+                    tiles[i][j].setValue(reverseNum);
+                    maxNumber--;
+                    reverseNum++;
+                }
+            }
+        }
+        for(int i=0; i<10; i++) {
+            for(int j=0; j<10; j++) {
+                tiles2[i][j] = tiles[i][j];
+            }
+        }
+        return tiles2;
     }
 
 
@@ -262,12 +298,12 @@ class Players {
             return newPos;
         }
         if (null != snake.get(PosAfter)) {
-            System.out.println("swallowed by snake");
+            System.out.println("Swallowed by a snake");
             PosAfter = snake.get(PosAfter);
             return PosAfter;
         }
         if (null != ladder.get(PosAfter)) {
-            System.out.println("Climb up the ladder");
+            System.out.println("Go up the ladder");
             PosAfter = ladder.get(PosAfter);
             return PosAfter;
         } else {
@@ -282,5 +318,144 @@ class Players {
 
 }
 
+class Tile {
+    int value;
+    String player;
+
+    public Tile() {
+        value = 0;
+        player = null;
+    }
+
+    public Tile(int value) {
+        this.value = value;
+        player = "";
+    }
+
+    public Tile(int value, String player) {
+        this.value = value;
+        this.player = player;
+    }
+    //copy constructor
+    public Tile(Tile t) {
+        value = t.value;
+        player = t.player;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public String getPlayer() {
+        return player;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public void setPlayer(String Player) {
+        this.player = Player;
+    }
+
+    //This is ultimately setting up what each tile of the board will look like when printed. Creating the layout of the tiles.
+    public String toString() {
+        String res = "";
+        String res2 = "";
+
+        if(player == "")
+            return "";
+        else if(player == "P1")
+            res = "(P1)";
+        else if(player == "P2")
+            res = "(P2)";
+        else if(player == "P3")
+            res = "(P3)";
+        else if(player == "P4")
+            res = "(P4)";
+        else if(player == "1+")
+            res = "(1+)";
+
+
+        switch(value) {
+            case 1:
+                res2 = "L->38";
+                break;
+            case 4:
+                res2 = "L->14";
+                break;
+            case 9:
+                res2 = "L->31";
+                break;
+            case 21:
+                res2 = "L->42";
+                break;
+            case 36:
+                res2 = "L->44";
+                break;
+            case 28:
+                res2 = "L->84";
+                break;
+            case 51:
+                res2 = "L->67";
+                break;
+            case 71:
+                res2 = "L->91";
+                break;
+            case 80:
+                res2 = "L->100";
+                break;
+
+            case 16:
+                res2 = "S->6";
+                break;
+            case 48:
+                res2 = "S->30";
+                break;
+            case 64:
+                res2 = "S->60";
+                break;
+            case 79:
+                res2 = "S->19";
+                break;
+            case 93:
+                res2 = "S->68";
+                break;
+            case 95:
+                res2 = "S->24";
+                break;
+            case 97:
+                res2 = "S->76";
+                break;
+            case 98:
+                res2 = "S->78";
+                break;
+        }
+        return ("|  "+value+" "+res2+" "+res+"|");
+
+    }
+
+}
+
+class Board {
+    private Tile[][] board;
+
+    public Board(Tile[][] tiles) {
+        board = tiles;
+
+    }
+    //Method to print board
+    public void printBoard() {
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println();
+            for (int j = 0; j < 10; j++) {
+                System.out.printf("%16s", board[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
+}
 
 
